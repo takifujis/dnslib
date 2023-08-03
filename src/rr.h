@@ -50,10 +50,10 @@ namespace dns {
 class RData {
     public:
         virtual ~RData() { };
-        virtual eRDataType getType() = 0;
+        virtual eRDataType getType() const = 0;
         virtual void decode(Buffer &buffer, const uint size) = 0;
         virtual void encode(Buffer &buffer) = 0;
-        virtual std::string asString() = 0;
+        virtual std::string asString() const = 0;
 };
 
 /**
@@ -67,7 +67,7 @@ class RDataWithName: public RData {
         virtual void encode(Buffer &buffer);
 
         virtual void setName(const std::string& newName) { mName = newName; };
-        virtual std::string getName() { return mName; };
+        virtual std::string getName() const { return mName; };
 
     private:
         // <domain-name> as defined in DNS RFC (sequence of labels)
@@ -79,8 +79,8 @@ class RDataWithName: public RData {
  */
 class RDataCNAME: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_CNAME; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_CNAME; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -91,7 +91,7 @@ class RDataHINFO: public RData {
         RDataHINFO() : mCpu(""), mOs("") { };
         virtual ~RDataHINFO() { };
 
-        virtual eRDataType getType() { return RDATA_HINFO; };
+        virtual eRDataType getType() const { return RDATA_HINFO; };
 
         void setCpu(const std::string& newCpu) { mCpu = newCpu; };
         std::string getCpu() { return mCpu; };
@@ -101,7 +101,7 @@ class RDataHINFO: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // CPU type
@@ -117,8 +117,8 @@ class RDataHINFO: public RData {
  */
 class RDataMB: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_MB; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_MB; };
+        virtual std::string asString() const;
 };
 
  /**
@@ -129,8 +129,8 @@ class RDataMB: public RDataWithName {
  */
 class RDataMD: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_MD; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_MD; };
+        virtual std::string asString() const;
 };
 
  /**
@@ -141,8 +141,8 @@ class RDataMD: public RDataWithName {
  */
 class RDataMF: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_MF; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_MF; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -153,8 +153,8 @@ class RDataMF: public RDataWithName {
 */
 class RDataMG: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_MG; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_MG; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -165,7 +165,7 @@ class RDataMINFO: public RData {
         RDataMINFO() : mRMailBx(""), mMailBx("") { };
         virtual ~RDataMINFO() { };
 
-        virtual eRDataType getType() { return RDATA_MINFO; };
+        virtual eRDataType getType() const { return RDATA_MINFO; };
 
         void setRMailBx(const std::string& newRMailBx) { mRMailBx = newRMailBx; };
         std::string getRMailBx() { return mRMailBx; };
@@ -175,7 +175,7 @@ class RDataMINFO: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // A <domain-name> which specifies a mailbox which is
@@ -195,8 +195,8 @@ class RDataMINFO: public RData {
 */
 class RDataMR: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_MR; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_MR; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -207,7 +207,7 @@ class RDataMX: public RData {
         RDataMX() : mPreference(0), mExchange("") { };
         virtual ~RDataMX() { };
 
-        virtual eRDataType getType() { return RDATA_MX; };
+        virtual eRDataType getType() const { return RDATA_MX; };
 
         void setPreference(const uint newPreference) { mPreference = newPreference; };
         uint getPreference() { return mPreference; };
@@ -217,7 +217,7 @@ class RDataMX: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // A 16 bit integer which specifies the preference given to
@@ -236,10 +236,10 @@ class RDataNULL : public RData {
     public:
         RDataNULL() : mDataSize(0), mData(NULL) { };
         virtual ~RDataNULL();
-        virtual eRDataType getType() { return RDATA_NULL; };
+        virtual eRDataType getType() const { return RDATA_NULL; };
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // raw data
@@ -255,8 +255,8 @@ class RDataNULL : public RData {
 */
 class RDataNS: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_NS; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_NS; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -267,8 +267,8 @@ class RDataNS: public RDataWithName {
 */
 class RDataPTR: public RDataWithName {
     public:
-        virtual eRDataType getType() { return RDATA_PTR; };
-        virtual std::string asString();
+        virtual eRDataType getType() const { return RDATA_PTR; };
+        virtual std::string asString() const;
 };
 
 /**
@@ -279,7 +279,7 @@ class RDataSOA: public RData {
         RDataSOA() : mMName(""), mRName(""), mSerial(0), mRefresh(0), mRetry(0), mExpire(0), mMinimum(0) { };
         virtual ~RDataSOA() { };
 
-        virtual eRDataType getType() { return RDATA_SOA; };
+        virtual eRDataType getType() const { return RDATA_SOA; };
 
         void setMName(const std::string& newMName) { mMName = newMName; };
         std::string getMName() { return mMName; };
@@ -304,7 +304,7 @@ class RDataSOA: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // The <domain-name> of the name server that was the
@@ -342,10 +342,10 @@ class RDataTXT: public RData {
     public:
         RDataTXT() { };
         virtual ~RDataTXT() { };
-        virtual eRDataType getType() { return RDATA_TXT; };
+        virtual eRDataType getType() const { return RDATA_TXT; };
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
         virtual void addTxt(const std::string& newTxt) { mTexts.push_back(newTxt); };
         //virtual std::string getTxt() { return mTxt; };
@@ -363,7 +363,7 @@ class RDataA: public RData {
         RDataA() { for (uint i = 0; i < 4; i++) mAddr[i] = 0; };
         virtual ~RDataA()  { };
 
-        virtual eRDataType getType() { return RDATA_A; };
+        virtual eRDataType getType() const { return RDATA_A; };
 
         void setAddress(const uchar *addr) { for (uint i = 0; i < 4; i++) mAddr[i] = addr[i]; };
         void setAddress(const std::string &addr) { inet_pton(AF_INET, addr.c_str(), &mAddr); };
@@ -371,7 +371,7 @@ class RDataA: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // 32 bit internet address.
@@ -385,7 +385,7 @@ class RDataWKS: public RData {
     public:
         RDataWKS() : mProtocol(0), mBitmap(NULL), mBitmapSize(0) { for (uint i = 0; i < 4; i++) mAddr[i] = 0; };
         virtual ~RDataWKS();
-        virtual eRDataType getType() { return RDATA_WKS; };
+        virtual eRDataType getType() const { return RDATA_WKS; };
 
         void setAddress(const uchar *addr) { for (uint i = 0; i < 4; i++) mAddr[i] = addr[i]; };
         uchar* getAddress() { return mAddr; };
@@ -397,7 +397,7 @@ class RDataWKS: public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // 32 bit internet address.
@@ -419,14 +419,14 @@ class RDataAAAA: public RData {
         RDataAAAA() { for (uint i = 0; i < 16; i++) mAddr[i] = 0; };
         virtual ~RDataAAAA()  { };
 
-        virtual eRDataType getType() { return RDATA_AAAA; };
+        virtual eRDataType getType() const { return RDATA_AAAA; };
 
         void setAddress(const uchar *addr) { for (uint i = 0; i < 16; i++) mAddr[i] = addr[i]; };
         uchar* getAddress() { return mAddr; };
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         // 128 bit IPv6 address.
@@ -440,7 +440,7 @@ class RDataNAPTR : public RData {
         RDataNAPTR() : mOrder(0), mPreference(0), mFlags(""), mServices(""), mRegExp(""), mReplacement("") { };
         virtual ~RDataNAPTR() { };
 
-        virtual eRDataType getType() { return RDATA_NAPTR; };
+        virtual eRDataType getType() const { return RDATA_NAPTR; };
 
         void setOrder(uint newOrder) { mOrder = newOrder; };
         uint getOrder() { return mOrder; };
@@ -457,7 +457,7 @@ class RDataNAPTR : public RData {
 
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
     private:
         uint mOrder;
@@ -475,10 +475,10 @@ class RDataSRV : public RData {
     public:
         RDataSRV() { };
         virtual ~RDataSRV() { };
-        virtual eRDataType getType() { return RDATA_SRV; };
+        virtual eRDataType getType() const { return RDATA_SRV; };
         virtual void decode(Buffer &buffer, const uint size);
         virtual void encode(Buffer &buffer);
-        virtual std::string asString();
+        virtual std::string asString() const;
 
         void setPriority(const uint newPriority) { mPriority = newPriority; };
         uint getPriority() const { return mPriority; };
@@ -556,24 +556,24 @@ class ResourceRecord
         ~ResourceRecord();
 
         void setName(std::string newName) { mName = newName; };
-        uint getName() const;
+        const std::string& getName() const { return mName; };
 
         void setType(const eRDataType type) { mType = type; };
-        eRDataType getType() const;
+        eRDataType getType() const { return mType; };
 
         void setClass(eClass newClass) { mClass = newClass; };
-        eClass getClass() const;
+        eClass getClass() const { return mClass; }
 
         void setTtl(uint newTtl) { mTtl = newTtl; };
-        uint getTtl() const;
+        uint getTtl() const { return mTtl; };
 
         void setRData(RData *newRData) { mRData = newRData; mType = newRData->getType(); };
-        //const char* getRData() const;
+        const RData* getRData() const { return mRData; };
 
         void decode(Buffer &buffer);
         void encode(Buffer &buffer);
 
-        std::string asString();
+        std::string asString() const;
 
     private:
         /* Domain name to which this resource record pertains */

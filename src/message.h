@@ -198,13 +198,13 @@ class Message {
         uint getArCount() { return mAdditional.size(); }
 
         void addQuery(QuerySection* qs) { mQueries.push_back(qs); };
-        std::vector<QuerySection*> getQueries() { return mQueries; };
+        std::vector<QuerySection*>& getQueries() { return mQueries; };
         void addAnswer(ResourceRecord* rr) { mAnswers.push_back(rr); };
-        std::vector<ResourceRecord*> getAnswers() { return mAnswers; };
+        std::vector<ResourceRecord*>& getAnswers() { return mAnswers; };
         void addAuthority(ResourceRecord* rr) { mAuthorities.push_back(rr); };
-        std::vector<ResourceRecord*> getAuthorities() { return mAuthorities; };
+        std::vector<ResourceRecord*>& getAuthorities() { return mAuthorities; };
         void addAdditional(ResourceRecord* rr) { mAdditional.push_back(rr); };
-        std::vector<ResourceRecord*> getAdditional() { return mAdditional; };
+        std::vector<ResourceRecord*>& getAdditional() { return mAdditional; };
 
         // Returns the DNS message header as a string text.
         std::string asString();

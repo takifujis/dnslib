@@ -61,7 +61,7 @@ void RDataWithName::encode(Buffer &buffer)
 
 /////////// RDataCNAME /////////////////
 
-std::string RDataCNAME::asString()
+std::string RDataCNAME::asString() const
 {
     ostringstream text;
     text << "<<CNAME domainName=" << getName();
@@ -82,7 +82,7 @@ void RDataHINFO::encode(Buffer &buffer)
     buffer.putDnsCharacterString(mOs);
 }
 
-std::string RDataHINFO::asString()
+std::string RDataHINFO::asString() const
 {
     ostringstream text;
     text << "<<HINFO cpu=" << mCpu << " os=" << mOs;
@@ -91,7 +91,7 @@ std::string RDataHINFO::asString()
 
 /////////// RDataMB /////////////////
 
-std::string RDataMB::asString()
+std::string RDataMB::asString() const
 {
     ostringstream text;
     text << "<<MB madname=" << getName();
@@ -100,7 +100,7 @@ std::string RDataMB::asString()
 
 /////////// RDataMD /////////////////
 
-std::string RDataMD::asString()
+std::string RDataMD::asString() const
 {
     ostringstream text;
     text << "<<MD madname=" << getName();
@@ -109,7 +109,7 @@ std::string RDataMD::asString()
 
 /////////// RDataMF /////////////////
 
-std::string RDataMF::asString()
+std::string RDataMF::asString() const
 {
     ostringstream text;
     text << "<<MF madname=" << getName();
@@ -118,7 +118,7 @@ std::string RDataMF::asString()
 
 /////////// RDataMG /////////////////
 
-std::string RDataMG::asString()
+std::string RDataMG::asString() const
 {
     ostringstream text;
     text << "<<MG madname=" << getName();
@@ -139,7 +139,7 @@ void RDataMINFO::encode(Buffer &buffer)
     buffer.putDnsDomainName(mMailBx);
 }
 
-std::string RDataMINFO::asString()
+std::string RDataMINFO::asString() const
 {
     ostringstream text;
     text << "<<MINFO rmailbx=" << mRMailBx << " mailbx=" << mMailBx;
@@ -148,7 +148,7 @@ std::string RDataMINFO::asString()
 
 /////////// RDataMR /////////////////
 
-std::string RDataMR::asString()
+std::string RDataMR::asString() const
 {
     ostringstream text;
     text << "<<MR newname=" << getName();
@@ -169,7 +169,7 @@ void RDataMX::encode(Buffer &buffer)
     buffer.putDnsDomainName(mExchange);
 }
 
-std::string RDataMX::asString()
+std::string RDataMX::asString() const
 {
     ostringstream text;
     text << "<<MX preference=" << mPreference << " exchange=" << mExchange;
@@ -204,7 +204,7 @@ void RDataNULL::encode(Buffer &buffer)
     buffer.putBytes(mData, mDataSize);
 }
 
-std::string RDataNULL::asString()
+std::string RDataNULL::asString() const
 {
     ostringstream text;
     text << "<<NULL size=" << mDataSize;
@@ -213,7 +213,7 @@ std::string RDataNULL::asString()
 
 /////////// RDataNS /////////////////
 
-std::string RDataNS::asString()
+std::string RDataNS::asString() const
 {
     ostringstream text;
     text << "<<NS nsdname=" << getName();
@@ -222,7 +222,7 @@ std::string RDataNS::asString()
 
 /////////// RDataPTR /////////////////
 
-std::string RDataPTR::asString()
+std::string RDataPTR::asString() const
 {
     ostringstream text;
     text << "<<PTR ptrdname=" << getName();
@@ -253,7 +253,7 @@ void RDataSOA::encode(Buffer &buffer)
     buffer.put32bits(mMinimum);
 }
 
-std::string RDataSOA::asString()
+std::string RDataSOA::asString() const
 {
     ostringstream text;
     text << "<<SOA mname=" << mMName << " rname=" << mRName << " serial=" << mSerial;
@@ -279,11 +279,11 @@ void RDataTXT::encode(Buffer &buffer)
         buffer.putDnsCharacterString(*it);
 }
 
-std::string RDataTXT::asString()
+std::string RDataTXT::asString() const
 {
     ostringstream text;
     text << "<<TXT items=" << mTexts.size() ;
-    for(std::vector<std::string>::iterator it = mTexts.begin(); it != mTexts.end(); ++it)
+    for(std::vector<std::string>::const_iterator it = mTexts.begin(); it != mTexts.end(); ++it)
         text << " '" << (*it) << "'";
     return text.str();
 }
@@ -304,7 +304,7 @@ void RDataA::encode(Buffer &buffer)
         buffer.put8bits(mAddr[i]);
 }
 
-std::string RDataA::asString()
+std::string RDataA::asString() const
 {
     ostringstream text;
     text << "<<RData A addr=" << static_cast<uint>(mAddr[0]) << '.' << static_cast<uint>(mAddr[1]) << '.' << static_cast<uint>(mAddr[2]) << '.' << static_cast<uint>(mAddr[3]);
@@ -355,7 +355,7 @@ void RDataWKS::encode(Buffer &buffer)
         buffer.putBytes(mBitmap, mBitmapSize);
 }
 
-std::string RDataWKS::asString()
+std::string RDataWKS::asString() const
 {
     ostringstream text;
     text << "<<RData WKS addr=";
@@ -387,7 +387,7 @@ void RDataAAAA::encode(Buffer &buffer)
         buffer.put8bits(mAddr[i]);
 }
 
-std::string RDataAAAA::asString()
+std::string RDataAAAA::asString() const
 {
     ostringstream text;
     text << "<<RData AAAA addr=";
@@ -425,7 +425,7 @@ void RDataNAPTR::encode(Buffer &buffer)
     buffer.putDnsDomainName(mReplacement, false);
 }
 
-std::string RDataNAPTR::asString()
+std::string RDataNAPTR::asString() const
 {
     ostringstream text;
     text << "<<NAPTR order=" << mOrder << " preference=" << mPreference << " flags=" << mFlags << " services=" << mServices << " regexp=" << mRegExp << " replacement=" << mReplacement;
@@ -457,7 +457,7 @@ void RDataSRV::encode(Buffer &buffer)
     buffer.putDnsCharacterString(mTarget);
 }
 
-std::string RDataSRV::asString()
+std::string RDataSRV::asString() const
 {
     ostringstream text;
     text << "mPriority: " << mPriority << ", mWeight: " << mWeight << ", mPort: " << mPort << ", mTarget: " << mTarget << std::endl;
@@ -568,7 +568,7 @@ void ResourceRecord::encode(Buffer &buffer)
     }
 }
 
-std::string ResourceRecord::asString()
+std::string ResourceRecord::asString() const
 {
     ostringstream text;
     //text << "<DNS RR: "  << mName << " rtype=" << mType << " rclass=" << mClass << " ttl=" << mTtl << " rdata=" <<  mRDataSize << " bytes ";
